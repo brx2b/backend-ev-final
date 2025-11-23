@@ -11,7 +11,9 @@ public class Persona {
     @GeneratedValue
     private Long id;
     private String nombre;
-
+    private Boolean rol;
+    private String correo;
+    private String contrasenna;
 
     //getters y setters id
     public Long getId(){return id;}
@@ -21,6 +23,13 @@ public class Persona {
     public String getNombre(){return nombre;}
     public void setNombre(String nombre){this.nombre=nombre;}
 
-
-
+    //rol
+    public Boolean getRol() {return rol;}
+    public void setRol(Boolean rol){this.rol=rol;}
+    //correo
+    public String getCorreo(){return correo;}
+    public void setCorreo(String correo){this.correo=correo;}
+    //contrasenna
+    public String getContrasenna(){return contrasenna;}
+    public void setContrasenna(String contrasenna){this.contrasenna=contrasenna;}
 }
