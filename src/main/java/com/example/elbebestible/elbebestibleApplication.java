@@ -1,13 +1,13 @@
-package com.example.bebestible;
+package com.example.elbebestible;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BebestibleApplication {
+public class elbebestibleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BebestibleApplication.class, args);
+		SpringApplication.run(elbebestibleApplication.class, args);
 	}
 
 }
