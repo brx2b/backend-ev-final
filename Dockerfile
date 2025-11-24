@@ -3,7 +3,7 @@ FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package -DskipTest
+RUN mvn clean package -DskipTests
 
 #Runtime donde genero el .jar
 FROM eclipse-temurin:17-jdk-alpine
