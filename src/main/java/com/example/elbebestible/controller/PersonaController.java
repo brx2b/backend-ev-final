@@ -32,15 +32,4 @@ public class PersonaController {
     public void eliminar(@PathVariable Long id){
         repo.deleteById(id);
     }
-
-    @PutMapping("/{id}")
-    public Persona actualizar(@PathVariable Long id, @RequestBody Persona p){
-        return repo.findById(id).map(persona -> {
-            persona.setNombre(p.getNombre());
-            persona.setCorreo(p.getCorreo());
-            persona.setContrasenna(p.getContrasenna());
-            persona.setRol(p.getRol());
-            return repo.save(persona);
-        }).orElse(null);
-    }
 }
