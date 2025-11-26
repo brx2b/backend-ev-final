@@ -16,7 +16,9 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:3000",
-                                "elbebestible-f67rlieo0-brians-projects-519e32ef.vercel.app"
+                                "https://elbebestible-f67rlieo0-brians-projects-519e32ef.vercel.app",
+                                "https://elbebestible.vercel.app",
+                                "https://elbebestible-brians-projects-519e32ef.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
