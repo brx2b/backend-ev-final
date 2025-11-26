@@ -3,7 +3,9 @@ package com.example.elbebestible.repository;
 import com.example.elbebestible.model.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonaRepository extends JpaRepository<Persona, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-    Persona findByCorreo(String correo);
+public interface PersonaRepository extends JpaRepository<Persona, Long> {
+    Optional<Persona> findByCorreo(String correo);
 }

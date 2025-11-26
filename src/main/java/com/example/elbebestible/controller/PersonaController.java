@@ -9,74 +9,68 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/personas")
-@CrossOrigin(origins = {"http://localhost:3000", "https://frontend-fs-d.vercel.app"})
 public class PersonaController {
 
     private final PersonaRepository repo;
 
-    // Constructor
-    public PersonaController(PersonaRepository repo) {
+    public PersonaController(PersonaRepository repo){
         this.repo = repo;
     }
-    @PostMapping
-    public ResponseEntity<?> registrar(@RequestBody Persona personaNueva){
-        // 1. Verificar si ya existe el correo
-        Persona existente = repo.findByCorreo(personaNueva.getCorreo());
 
-        if(existente != null){
-            return ResponseEntity.status(409).body("El correo ya está registrado");
-        }
-
-        // 2. Guardar si no existe
-        Persona personaGuardada = repo.save(personaNueva);
-        return ResponseEntity.ok(personaGuardada);
-    }
-
-    // Listar
+    //get
     @GetMapping
-    public List<Persona> listar() {
+    public List<Persona> listar(){
         return repo.findAll();
     }
-
-    // Registrar persona
+    //guardar
     @PostMapping
-    public Persona guardar(@RequestBody Persona persona) {
+    public Persona guardar(@RequestBody Persona persona){
         return repo.save(persona);
     }
-
-    // Eliminar
+    //eliminar
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public void eliminar(@PathVariable Long id){
         repo.deleteById(id);
     }
-
-    // Actualizar
+    //actualizar put
     @PutMapping("/{id}")
-    public Persona actualizar(@PathVariable Long id, @RequestBody Persona personaUpdate) {
-        return repo.findById(id).map(persona -> {
-            persona.setNombre(personaUpdate.getNombre());
-            persona.setCorreo(personaUpdate.getCorreo());   // O email, según tu modelo
-            persona.setContrasenna(personaUpdate.getContrasenna());
-            persona.setRol(personaUpdate.getRol());
-            return repo.save(persona);
+    public Persona actualizar(@PathVariable Long id, @RequestBody Persona personaUpdate){
+        return repo.findById(id).map(p -> {
+            p.setNombre(personaUpdate.getNombre());
+            p.setCorreo(personaUpdate.getCorreo());
+            p.setContrasenna(personaUpdate.getContrasenna());
+            p.setRol(personaUpdate.getRol());
+            return repo.save(p);
         }).orElse(null);
     }
 
+    //registro
+    @PostMapping("/registro")
+    public ResponseEntity<?> registrar(@RequestBody Persona persona){
+
+        // Validar si el correo ya existe
+        if (repo.findByCorreo(persona.getCorreo()).isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("El correo ya está registrado");
+        }
+
+        Persona nueva = repo.save(persona);
+        return ResponseEntity.ok(nueva);
+    }
 
     //login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Persona loginData) {
+    public ResponseEntity<?> login(@RequestBody Persona datosLogin){
 
-        Persona persona = repo.findByCorreo(loginData.getCorreo());
-
-        if (persona == null) {
-            return ResponseEntity.status(401).body("Correo incorrecto");
-        }
-
-        if (!persona.getContrasenna().equals(loginData.getContrasenna())) {
-            return ResponseEntity.status(401).body("Contraseña incorrecta");
-        }
-
-        return ResponseEntity.ok(persona);
+        return repo.findByCorreo(datosLogin.getCorreo())
+                .map(p -> {
+                    if (p.getContrasenna().equals(datosLogin.getContrasenna())) {
+                        return ResponseEntity.ok(p);
+                    } else {
+                        return ResponseEntity.badRequest().body("Contraseña incorrecta");
+                    }
+                })
+                .orElse(ResponseEntity.badRequest().body("Correo no encontrado"));
     }
 }
