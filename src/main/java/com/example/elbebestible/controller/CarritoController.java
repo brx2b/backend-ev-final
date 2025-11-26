@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/api/carrito")
-@CrossOrigin("*")
 public class CarritoController {
     private final CarritoRepository repo;
 

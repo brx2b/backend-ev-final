@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bebidas")
-@CrossOrigin("*")
 public class BebidaController {
     private final BebidaRepository repo;
 
